@@ -177,7 +177,7 @@ body {
   margin-top: 5rem;
   display: flex;
   justify-content: center;
-  /*flex-wrap: wrap;*/
+  flex-wrap: wrap;
   gap: 5rem;
 }
 
@@ -254,7 +254,7 @@ body {
   padding: 5rem 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 5rem;
+  gap: 6rem;
   font-family: var(--sub-font);
 }
 

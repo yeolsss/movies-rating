@@ -9,8 +9,11 @@ const IMG_PATH = "https://image.tmdb.org/t/p/w500";
 const topMovies = document.querySelector("#top5_movies");
 // popular movie card div
 const popularMovies = document.querySelector("#popular_movies");
-// search btn
+// search form
 const searchForm = document.querySelector("#search_form");
+// search input
+const searchInput = document.querySelector("#search_input");
+searchInput.focus();
 
 // top 5 movie arr
 const movieCategoryObj = {
