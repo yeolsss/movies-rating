@@ -224,6 +224,11 @@ body {
   transition: opacity 0.2s ease-in;
   scrollbar-width: none;
 }
+.main-wrapper
+  .main__top5-movies__card
+  .main__top5-movies__info::-webkit-scrollbar {
+  display: none;
+}
 
 .main-wrapper .main__top5-movies__card:hover .main__top5-movies__info {
   opacity: 1;
