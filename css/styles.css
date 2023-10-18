@@ -112,7 +112,6 @@ body {
   padding: 0 5rem;
   background-color: var(--main-wrapper-bg-color);
 }
-s
 
 /*header start*/
 .header-wrapper {
@@ -177,7 +176,8 @@ s
 .main-wrapper .main__top5-wrapper .main__top5-movies__cards {
   margin-top: 5rem;
   display: flex;
-  overflow-x: scroll;
+  justify-content: center;
+  flex-wrap: wrap;
   gap: 5rem;
 }
 
