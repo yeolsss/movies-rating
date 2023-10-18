@@ -222,6 +222,7 @@ body {
   opacity: 0;
   z-index: 1;
   transition: opacity 0.2s ease-in;
+  scrollbar-width: none;
 }
 
 .main-wrapper .main__top5-movies__card:hover .main__top5-movies__info {
