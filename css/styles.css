@@ -109,20 +109,19 @@ body {
   width: 120rem;
   height: auto;
   margin: 0 auto;
-  position: relative;
-  padding: 12rem 5rem 10rem;
+  padding: 0 5rem 10rem;
   background-color: var(--main-wrapper-bg-color);
+  position: relative;
 }
 
 /*header start*/
 .header-wrapper {
-  width: 120rem;
   top: 0;
-  right: 26rem;
+  left: 0;
   height: 12rem;
   display: flex;
   justify-content: space-between;
-  position: fixed;
+  position: sticky;
   background-color: var(--main-wrapper-bg-color);
   z-index: 4;
   padding: 0 5rem;
