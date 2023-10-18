@@ -54,6 +54,10 @@ button {
 svg {
   pointer-events: none;
 }
+.update-modal__form::-webkit-scrollbar,
+.delete-modal__form::-webkit-scrollbar {
+  display: none;
+}
 
 /*Typography*/
 :root {
@@ -242,6 +246,7 @@ body {
   opacity: 0;
   z-index: 2;
   transition: opacity 0.2s ease-in;
+  scrollbar-width: none;
 }
 
 .main-wrapper .main__top5-movies__card:hover .main__top5-movies__info {
@@ -265,6 +270,13 @@ body {
   height: 15rem;
   text-overflow: ellipsis;
   overflow: scroll;
+  scrollbar-width: none;
+}
+.main-wrapper
+  .main__top5-movies__card
+  .main__top5-movies__info
+  p:nth-child(2)::-webkit-scrollbar {
+  display: none;
 }
 
 /* main top5 end*/
