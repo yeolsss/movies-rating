@@ -12,4 +12,15 @@ const options = {
 export const getMovies = fetch(
   "https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=1",
   options,
-).then((response) => response.json());
+)
+  .then((response) => response.json())
+  .catch((err) => console.error(err));
+
+export const searchMovies = (searchKeyWord) => {
+  return fetch(
+    `https://api.themoviedb.org/3/search/movie?query=${searchKeyWord}&include_adult=false&language=ko-KR&page=1`,
+    options,
+  )
+    .then((response) => response.json())
+    .catch((err) => console.error(err));
+};

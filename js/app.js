@@ -1,5 +1,5 @@
 // 영화 전체 받아오기
-import { getMovies } from "./getMovie.js";
+import { getMovies, searchMovies } from "./getMovie.js";
 
 // img default url
 const IMG_PATH = "https://image.tmdb.org/t/p/w500";
@@ -9,12 +9,15 @@ const IMG_PATH = "https://image.tmdb.org/t/p/w500";
 const topMovies = document.querySelector("#top5_movies");
 // popular movie card div
 const popularMovies = document.querySelector("#popular_movies");
+// search btn
+const searchForm = document.querySelector("#search_form");
 
 // top 5 movie arr
 const movieCategoryObj = {
   topFive: [],
   popular: [],
 };
+
 const { results: movieList } = await getMovies;
 const movieObject = movieList.reduce((acc, cur, index) => {
   index < 5 ? acc.topFive.push(cur) : acc.popular.push(cur);
@@ -51,7 +54,7 @@ const createTopMovieCard = (movieList) => {
         <p>
           ${overview}
         </p>
-        <p>Rating: ${vote_average}</p>
+        <p>Rating: ${vote_average.toFixed(1)}</p>
       </div>
     </div>
   `;
@@ -60,16 +63,15 @@ const createTopMovieCard = (movieList) => {
 };
 
 // popular 출력 함수
-const createPopularMovieCard = (movieList) => {
+const createPopularMovieCard = (movieList, title) => {
   popularMovies.innerHTML = "";
   popularMovies.innerHTML = `
   <div class="main__popular-movies__title">
-    <h1>Popular Movies</h1>
+    <h1>${title}</h1>
   </div>
   `;
 
-  const { popular } = movieList;
-  popular.forEach((movie) => {
+  movieList.forEach((movie) => {
     const card = document.createElement("div");
     card.classList.add("main__popular-movies__card");
     const {
@@ -85,16 +87,29 @@ const createPopularMovieCard = (movieList) => {
     card.innerHTML = `
       <img
       src="${IMG_PATH}${poster_path}"
-      alt="이미지가 없시요"
+      alt="이미지가 없어요.. ㅠㅠ"
       />
       <div class="main__popular-movies__info">
         <h1>${title}</h1>
-        <p>Rating: ${vote_average}</p>
+        <p>Rating: ${vote_average.toFixed(1)}</p>
       </div>
   `;
     popularMovies.append(card);
   });
 };
 
+// search
+searchForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const searchKeyWord = event.target[0].value;
+  if (searchKeyWord.replaceAll(" ", "") === "") {
+    alert("검색어를 입력해 주세요.");
+    return;
+  }
+  const response = await searchMovies(searchKeyWord);
+  const { results, total_results } = response;
+  createPopularMovieCard(results, `Search Movie 총 갯수 : ${total_results}`);
+});
+
 createTopMovieCard(movieObject);
-createPopularMovieCard(movieObject);
+createPopularMovieCard(movieObject.popular, "Popular Movies");
