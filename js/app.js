@@ -57,7 +57,16 @@ const createTopMovieCard = (movieList) => {
         <p>
           ${overview}
         </p>
-        <p>Rating: ${vote_average.toFixed(1)}</p>
+        <div class="main__popular-movies__info">
+        <h1>${title}</h1>
+        <div class="star-wrapper">
+          <div class="star-area">
+            <span class="starpoint" style="width: ${
+              vote_average.toFixed(1) * 10
+            }%"></span>
+          </div>
+        </div>
+      </div>
       </div>
     </div>
   `;
@@ -94,7 +103,13 @@ const createPopularMovieCard = (movieList, title) => {
       />
       <div class="main__popular-movies__info">
         <h1>${title}</h1>
-        <p>Rating: ${vote_average.toFixed(1)}</p>
+        <div class="star-wrapper">
+          <div class="star-area">
+            <span class="starpoint" style="width: ${
+              vote_average.toFixed(1) * 10
+            }%"></span>
+          </div>
+        </div>
       </div>
   `;
     popularMovies.append(card);

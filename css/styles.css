@@ -294,3 +294,34 @@ body {
 /* main popular end */
 
 /* main contents end*/
+.star-wrapper {
+  width: 10rem;
+  height: 2rem;
+}
+.star-wrapper .star-area {
+  width: 9rem;
+  height: 2rem;
+  position: relative;
+}
+
+.star-wrapper .star-area span {
+  width: 20%;
+  background-color: #f8a504;
+  height: 1.6rem;
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+
+.star-wrapper .star-area::after {
+  width: 9.2rem;
+  height: 3rem;
+  background: url("../images/star_bar.svg") no-repeat;
+  background-size: 100%;
+  display: block;
+  content: "";
+  position: absolute;
+  top: -0.1rem;
+  left: -0.1rem;
+  z-index: 3;
+}
