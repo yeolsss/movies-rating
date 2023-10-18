@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap");
-
+@import url("https://fonts.googleapis.com/css2?family=Fjalla+One&family=Ubuntu:wght@400;500;700&display=swap");
 @font-face {
   font-family: "Cafe24Ssurround";
   src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24Ssurround.woff")
@@ -65,6 +65,7 @@ svg {
   /* fonts group */
   --main-title-font: "Cafe24Ssurround";
   --sub-font: "Ubuntu", "GangwonEduPowerExtraBoldA", sans-serif;
+  --rank-font: "Fjalla One", sans-serif;
 }
 
 html {
@@ -82,7 +83,7 @@ h5 {
 input {
   font-size: 1.6rem;
   font-family: var(--sub-font);
-  padding: 0.5rem 1rem;
+  padding: 1rem;
   box-sizing: border-box;
   border: 0.1rem solid rgba(0, 0, 0, 0);
   transition: border 0.3s ease-in;
@@ -109,24 +110,34 @@ body {
   height: auto;
   margin: 0 auto;
   position: relative;
-  padding: 0 5rem;
+  padding: 12rem 5rem 10rem;
   background-color: var(--main-wrapper-bg-color);
 }
 
 /*header start*/
 .header-wrapper {
+  width: 120rem;
+  top: 0;
+  right: 26rem;
   height: 12rem;
   display: flex;
   justify-content: space-between;
+  position: fixed;
+  background-color: var(--main-wrapper-bg-color);
+  z-index: 4;
+  padding: 0 5rem;
 }
 
 .header-wrapper .header__main-title {
   display: flex;
 }
-
 .header-wrapper .header__main-title h1 {
   margin: auto 0;
+}
+.header-wrapper .header__main-title h1 button {
   font-size: 4rem;
+  font-family: var(--main-title-font);
+  color: var(--main-font-color);
 }
 
 .header-wrapper .header__search-form {
@@ -162,7 +173,7 @@ body {
 
 /* main contents start*/
 .main-wrapper {
-  margin-top: 5rem;
+  margin-top: 10rem;
   display: flex;
   flex-direction: column;
 }
@@ -182,7 +193,7 @@ body {
 }
 
 .main-wrapper .main__top5-wrapper .main__top5-movies__cards::before {
-  content: "TOP 5.";
+  content: "TOP 5";
   font-family: var(--main-title-font);
   font-size: 2.4rem;
   position: absolute;
@@ -191,14 +202,28 @@ body {
 }
 
 .main-wrapper .main__top5-movies__card {
-  position: relative;
   border-radius: var(--border-radius);
   overflow: hidden;
 }
 .main-wrapper .main__top5-movies__card > div {
+  position: relative;
   width: 20rem;
   height: 30rem;
 }
+.main-wrapper .main__top5-movies__card > div > div:first-child {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+.main-wrapper .main__top5-movies__card > div > div:first-child h1 {
+  font-family: var(--rank-font);
+  font-size: 15rem;
+}
+
 .main-wrapper .main__top5-movies__cards .main__top5-movies__card img {
   width: 20rem;
   height: 30rem;
@@ -216,7 +241,7 @@ body {
   padding: 0 0.5rem 0.5rem;
   box-sizing: border-box;
   opacity: 0;
-  z-index: 1;
+  z-index: 2;
   transition: opacity 0.2s ease-in;
 }
 
