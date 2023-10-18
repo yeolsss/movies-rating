@@ -1,3 +1,302 @@
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap");
+
+@font-face {
+  font-family: "Cafe24Ssurround";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24Ssurround.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GangwonEduPowerExtraBoldA";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEduPowerExtraBoldA.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
 /*Reset*/
+body {
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-size: unset;
+  font-weight: unset;
+  margin: 0;
+}
+
+span,
+p {
+  margin: 0;
+}
+
+input {
+  color: unset;
+  outline: none;
+  background-color: unset;
+  border: unset;
+}
+
+button {
+  background-color: unset;
+  border: unset;
+  cursor: pointer;
+  padding: 0;
+}
+
+svg {
+  pointer-events: none;
+}
+
 /*Typography*/
+:root {
+  --main-bg-color: #2d3436;
+  --main-wrapper-bg-color: #1e272e;
+  --main-font-color: #f5f6fa;
+
+  /* fonts group */
+  --main-title-font: "Cafe24Ssurround";
+  --sub-font: "Ubuntu", "GangwonEduPowerExtraBoldA", sans-serif;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: var(--main-title-font);
+}
+
+input {
+  font-size: 1.6rem;
+  font-family: var(--sub-font);
+  padding: 0.5rem 1rem;
+  box-sizing: border-box;
+  border: 0.1rem solid rgba(0, 0, 0, 0);
+  transition: border 0.3s ease-in;
+  width: 22rem;
+  border-radius: 0.5rem;
+}
+
+input:focus {
+  border-color: var(--main-font-color);
+}
+
 /*Contents*/
+body {
+  background-color: var(--main-bg-color);
+  color: var(--main-font-color);
+  font-size: 1.6rem;
+  display: flex;
+}
+
+.container {
+  max-width: 144rem;
+  min-width: 50rem;
+  width: 120rem;
+  height: auto;
+  margin: 0 auto;
+  position: relative;
+  padding: 0 5rem;
+  background-color: var(--main-wrapper-bg-color);
+  /*box-shadow: inset 0 0 20px red;*/
+}
+
+/*header start*/
+.header-wrapper {
+  height: 12rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.header-wrapper .header__main-title {
+  display: flex;
+}
+
+.header-wrapper .header__main-title h1 {
+  margin: auto 0;
+  font-size: 4rem;
+}
+
+.header-wrapper .header__search-form {
+  display: flex;
+}
+
+.header-wrapper .header__search-form label {
+  display: none;
+}
+
+.header-wrapper .header__search-form form {
+  position: relative;
+  margin: auto 0;
+}
+
+.header-wrapper .header__search-form form button {
+  position: absolute;
+  top: 0;
+  width: 2rem;
+  height: 100%;
+  right: 0.5rem;
+}
+
+.header-wrapper .header__search-form form button svg {
+  transition: scale 0.3s ease-in;
+}
+
+.header-wrapper .header__search-form form button:hover svg {
+  scale: 200%;
+}
+
+/* header end */
+
+/* main contents start*/
+.main-wrapper {
+  margin-top: 5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* main top5 start*/
+.main-wrapper .main__top5-wrapper {
+  position: relative;
+  margin-bottom: 10rem;
+}
+
+.main-wrapper .main__top5-wrapper .main__top5-movies__cards {
+  margin-top: 5rem;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 5rem;
+}
+
+.main-wrapper .main__top5-wrapper .main__top5-movies__cards::before {
+  content: "TOP 5.";
+  font-family: var(--main-title-font);
+  font-size: 2.4rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.main-wrapper .main__top5-movies__cards .main__top5-movies__card img {
+  width: 20rem;
+  height: 30rem;
+}
+
+.main-wrapper .main__top5-movies__card {
+  position: relative;
+}
+.main-wrapper .main__top5-movies__card .main__top5-movies__info {
+  width: 20rem;
+  height: 30rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 0.5rem 0.5rem;
+  box-sizing: border-box;
+  opacity: 0;
+  z-index: 1;
+}
+
+.main-wrapper .main__top5-movies__card img,
+.main-wrapper .main__top5-movies__card .main__top5-movies__info {
+  transition:
+    opacity 0.2s ease-in,
+    scale 0.2s ease-in;
+}
+
+.main-wrapper .main__top5-movies__card:hover .main__top5-movies__info {
+  opacity: 1;
+}
+
+.main-wrapper .main__top5-movies__card:hover img,
+.main-wrapper .main__top5-movies__card:hover .main__top5-movies__info {
+  scale: 120%;
+}
+
+.main-wrapper .main__top5-movies__card .main__top5-movies__info h1 {
+  font-size: 2rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.main-wrapper .main__top5-movies__info :not(:last-child) {
+  margin-bottom: 1.6rem;
+}
+
+.main-wrapper .main__top5-movies__info :not(:first-child) {
+  font-family: var(--sub-font);
+}
+
+.main-wrapper .main__top5-movies__card .main__top5-movies__info p:nth-child(2) {
+  height: 15rem;
+  text-overflow: ellipsis;
+  overflow: scroll;
+}
+
+/* main top5 end*/
+
+/* main popular start */
+.main-wrapper .main__popular-wrapper {
+  position: relative;
+}
+
+.main-wrapper .main__popular-wrapper .main__popular-movies__cards {
+  padding: 5rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5rem;
+  font-family: var(--sub-font);
+}
+
+.main-wrapper .main__popular-wrapper .main__popular-movies__title {
+  content: "TOP 5.";
+  font-family: var(--main-title-font);
+  font-size: 2.4rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.main-wrapper .main__popular-wrapper .main__popular-movies__card img {
+  width: 15rem;
+  height: 20rem;
+  margin-bottom: 1rem;
+}
+.main-wrapper .main__popular-wrapper .main__popular-movies__card {
+  transition: scale 0.2s ease-in;
+}
+.main-wrapper .main__popular-wrapper .main__popular-movies__card:hover {
+  scale: 120%;
+}
+
+.main__popular-wrapper
+  .main__popular-movies__card
+  .main__popular-movies__info
+  h1 {
+  width: 15rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  margin-bottom: 1rem;
+}
+
+/* main popular end */
+
+/* main contents end*/
