@@ -58,7 +58,6 @@ const createTopMovieCard = (movieList) => {
           ${overview}
         </p>
         <div class="main__popular-movies__info">
-        <h1>${title}</h1>
         <div class="star-wrapper">
           <div class="star-area">
             <span class="starpoint" style="width: ${
