@@ -69,6 +69,7 @@ const pageClosure = () => {
       return searchTitle;
     },
     setMovieObject(results) {
+      // 사용하지 않아도되지만 reduce 공부를 위해 사용..
       movieObject = results.reduce(
         (acc, cur, index) => {
           if (index < 5) {
@@ -96,16 +97,7 @@ const createTopMovieCard = (movieList) => {
   topFive.forEach((movie, index) => {
     const card = document.createElement("div");
     card.classList.add("main__top5-movies__card");
-    const {
-      id,
-      original_language,
-      original_title,
-      overview,
-      title,
-      vote_average,
-      vote_count,
-      poster_path,
-    } = movie;
+    const { id, overview, title, vote_average, poster_path } = movie;
     card.innerHTML = `
   <div class="main__top5-movies__card">
       <div>

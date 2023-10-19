@@ -422,11 +422,12 @@ body {
   height: 100vh;
   position: fixed;
   background-color: rgba(0, 0, 0, 0.5);
-  transition: opacity 0.4s ease-in;
-  display: none;
+  display: flex;
   z-index: 5;
   backdrop-filter: blur(0.5rem);
   opacity: 0;
+  transition: opacity 0.4s ease-in;
+  pointer-events: none;
 }
 .detail-modal__info {
   width: 80%;
@@ -543,6 +544,6 @@ body {
 }
 
 .active-modal {
-  display: flex;
   opacity: 100;
+  pointer-events: auto;
 }
