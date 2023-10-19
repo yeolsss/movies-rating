@@ -460,6 +460,9 @@ body {
   display: flex;
   flex-direction: column;
 }
+.detail-modal__info .detail__info-wrapper::-webkit-scrollbar {
+  display: none;
+}
 .detail-modal__info .detail__info-wrapper h1 {
   font-size: 2.8rem;
 }
