@@ -108,10 +108,10 @@ const createTopMovieCard = (movieList) => {
           <div><h1>${index + 1}</h1></div>
         <img
           src="${IMG_PATH}${poster_path}"
-          alt="이미지가 없시요"
+          alt="이미지가 없어요.. ㅠㅠ"
         />
       </div>
-      <div class="main__top5-movies__info">
+      <div class="movie__detail-btn main__top5-movies__info">
         <h1>${title}</h1>
         <p>
           ${overview}
@@ -123,11 +123,12 @@ const createTopMovieCard = (movieList) => {
               }%"></span>
              </div>
             </div>
-      </div>
+      </div>  
     </div>
   `;
     $topMovies.append(card);
   });
+  addMovieDetailEvent();
 };
 
 // popular 출력 함수
@@ -162,23 +163,26 @@ const createPopularMovieCard = (
       poster_path,
     } = movie;
     card.innerHTML = `
-      <img
-      src="${IMG_PATH}${poster_path}"
-      alt="이미지가 없어요.. ㅠㅠ"
-      />
-      <div class="main__popular-movies__info">
-        <h1>${title}</h1>
-        <div class="star-wrapper">
-          <div class="star-area">
-            <span class="starpoint" style="width: ${
-              vote_average.toFixed(1) * 10
-            }%"></span>
+    <button class="movie__detail-btn" value="${id}">
+          <img
+          src="${IMG_PATH}${poster_path}"
+          alt="이미지가 없어요.. ㅠㅠ"
+          />
+          <div class="main__popular-movies__info">
+            <h1>${title}</h1>
+            <div class="star-wrapper">
+              <div class="star-area">
+                <span class="starpoint" style="width: ${
+                  vote_average.toFixed(1) * 10
+                }%"></span>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+    </button>
   `;
     $popularMovies.append(card);
   });
+  addMovieDetailEvent();
 };
 
 // pagination 생성 함수
@@ -246,9 +250,6 @@ const createPage = (totalPage, currentPage) => {
       : pageGroupLimit * currentPageGroup;
 
   // 현재 page 번호와 생성되는 버튼 번호가 맞으면 active class 붙이기
-  // 1번 그룹 1-5
-  // 2번 그룹 6-10
-  // 3번 그룹 11-15
   let loopStartNum = loopNum - pageGroupLimit + 1;
   let pageBtn = "";
 
@@ -331,30 +332,46 @@ $searchForm.addEventListener("submit", async (event) => {
   await searchMovieFunc();
 });
 
+// movie detail btn event 등록
+const addMovieDetailEvent = () => {
+  const $movieDetailBtns = document.querySelectorAll(".movie__detail-btn");
+  $movieDetailBtns.forEach((btn) => {
+    /*btn.childNodes.forEach((element) => {
+      element.addEventListener("click", (event) => {
+        event.stopPropagation();
+        console.log(event);
+      });
+    });*/
+    btn.addEventListener("click", (event) => {
+      event.stopPropagation();
+      event.preventDefault();
+      console.log(event);
+      // console.log(event);
+      // console.log(event.target);
+    });
+  });
+};
+
 // 검색, 페이지 번호 눌렀을 때 결과값 처리 함수
 const searchMovieFunc = async () => {
-  let response = null;
-  let msg = "";
-
   const keyword = pageController.getSearchKeyword();
+  const { results, total_pages, total_results } =
+    keyword !== ""
+      ? await searchMovies(
+          pageController.getSearchKeyword(),
+          pageController.getCurrentPage(),
+        )
+      : await getMovies(pageController.getCurrentPage());
 
   if (keyword !== "") {
-    response = await searchMovies(
-      pageController.getSearchKeyword(),
-      pageController.getCurrentPage(),
-    );
-    pageController.setSearchTitle(
-      `Search Movie (총 갯수 : ${response.total_results})`,
-    );
+    pageController.setSearchTitle(`Search Movie (총 갯수 : ${total_results})`);
   } else {
-    response = await getMovies(pageController.getCurrentPage());
     pageController.setSearchTitle("Popular Movies");
-    pageController.setMovieObject(response.results);
+    pageController.setMovieObject(results);
     pageController.getCurrentPage() === 1
       ? createTopMovieCard(pageController.getMovieObject())
       : "";
   }
-  const { results, total_pages } = response;
   createPopularMovieCard(
     results,
     pageController.getSearchTitle(),
