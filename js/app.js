@@ -17,10 +17,14 @@ searchInput.focus();
 // logo button (처음 페이지로 이동)
 const homeBtn = document.querySelector("#home_btn");
 
-const { results: movieList } = await getMovies;
+const { results: movieList, total_pages } = await getMovies;
+
 const movieObject = movieList.reduce(
   (acc, cur, index) => {
-    index < 5 ? acc.topFive.push(cur) : acc.popular.push(cur);
+    if (index < 5) {
+      acc.topFive.push(cur);
+    }
+    acc.popular.push(cur);
     return acc;
   },
   { topFive: [], popular: [] },
@@ -112,6 +116,51 @@ const createPopularMovieCard = (movieList, title) => {
   });
 };
 
+// pagination
+// 현재 검색 또는 로딩시 불러온 api에 page closure
+
+/*
+ 1~5 / 1번 그룹
+ 6~10 / 2번 그룹
+* */
+const pageClosure = () => {
+  let totalPage = 1;
+  let currentPageGroup = 1;
+  let currentPage = 1;
+  const pageGroupLimit = 5;
+  return {
+    setTotalPage(getTotalPage) {
+      totalPage = getTotalPage <= 0 ? 1 : getTotalPage;
+    },
+    getTotalPage() {
+      return totalPage;
+    },
+    setCurrentPage(getCurrentPage) {
+      currentPage = getCurrentPage <= 0 ? 1 : getCurrentPage;
+    },
+    getCurrentPage() {
+      return currentPage;
+    },
+    setCurrentPageGroup() {
+      // 소수점은 올림처리하여 그룹 하나를 더 만든다.
+      currentPageGroup = Math.ceil(currentPage / pageGroupLimit);
+    },
+    getCurrentPageGroup() {
+      return currentPageGroup;
+    },
+  };
+};
+
+// page 관련 클로저
+const pageController = pageClosure();
+
+// pagination 생성 함수
+const createPage = (totalPage, currentPage) => {
+  // 초기 로딩시 클로저에 받아온 movie 리스트의 total_page 입력
+  pageController.setTotalPage(totalPage);
+  pageController.setCurrentPage(currentPage);
+};
+
 // search
 searchForm.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -132,3 +181,4 @@ homeBtn.addEventListener("click", (event) => {
 
 createTopMovieCard(movieObject);
 createPopularMovieCard(movieObject.popular, "Popular Movies");
+createPage(total_pages, 1);

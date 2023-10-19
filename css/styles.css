@@ -330,6 +330,8 @@ body {
 /* main popular end */
 
 /* main contents end*/
+
+/* 별점 start */
 .star-wrapper {
   width: 10rem;
   height: 2rem;
@@ -360,4 +362,11 @@ body {
   top: -0.1rem;
   left: -0.1rem;
   z-index: 3;
+}
+/* 별점 end*/
+
+/* pagination*/
+
+.footer-wrapper .footer-nav {
+  display: flex;
 }
