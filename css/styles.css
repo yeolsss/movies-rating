@@ -232,7 +232,6 @@ body {
 .main-wrapper .main__top5-movies__cards .main__top5-movies__card img {
   width: 20rem;
   height: 30rem;
-  pointer-events: none;
   color: var(--main-font-color);
 }
 
@@ -318,7 +317,6 @@ body {
   height: 21rem;
   border-radius: var(--border-radius);
   margin-bottom: 1rem;
-  pointer-events: none;
   color: var(--main-font-color);
 }
 .main-wrapper .main__popular-wrapper .main__popular-movies__card {

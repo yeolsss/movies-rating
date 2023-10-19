@@ -111,7 +111,7 @@ const createTopMovieCard = (movieList) => {
           alt="이미지가 없어요.. ㅠㅠ"
         />
       </div>
-      <div class="movie__detail-btn main__top5-movies__info">
+      <div class="main__top5-movies__info" onclick="openDetail(this, ${id})">
         <h1>${title}</h1>
         <p>
           ${overview}
@@ -128,7 +128,6 @@ const createTopMovieCard = (movieList) => {
   `;
     $topMovies.append(card);
   });
-  addMovieDetailEvent();
 };
 
 // popular 출력 함수
@@ -163,12 +162,12 @@ const createPopularMovieCard = (
       poster_path,
     } = movie;
     card.innerHTML = `
-    <button class="movie__detail-btn" value="${id}">
           <img
           src="${IMG_PATH}${poster_path}"
           alt="이미지가 없어요.. ㅠㅠ"
+          onclick="openDetail(this, ${id})"
           />
-          <div class="main__popular-movies__info">
+          <div class="main__popular-movies__info" onclick="openDetail(this, ${id})">
             <h1>${title}</h1>
             <div class="star-wrapper">
               <div class="star-area">
@@ -178,11 +177,9 @@ const createPopularMovieCard = (
               </div>
             </div>
           </div>
-    </button>
   `;
     $popularMovies.append(card);
   });
-  addMovieDetailEvent();
 };
 
 // pagination 생성 함수
@@ -333,23 +330,9 @@ $searchForm.addEventListener("submit", async (event) => {
 });
 
 // movie detail btn event 등록
-const addMovieDetailEvent = () => {
-  const $movieDetailBtns = document.querySelectorAll(".movie__detail-btn");
-  $movieDetailBtns.forEach((btn) => {
-    /*btn.childNodes.forEach((element) => {
-      element.addEventListener("click", (event) => {
-        event.stopPropagation();
-        console.log(event);
-      });
-    });*/
-    btn.addEventListener("click", (event) => {
-      event.stopPropagation();
-      event.preventDefault();
-      console.log(event);
-      // console.log(event);
-      // console.log(event.target);
-    });
-  });
+// onclick event
+window.openDetail = (event, id) => {
+  alert(`영화 id: ${id}`);
 };
 
 // 검색, 페이지 번호 눌렀을 때 결과값 처리 함수
