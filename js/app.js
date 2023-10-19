@@ -367,6 +367,8 @@ const searchMovieFunc = async () => {
 $homeBtn.addEventListener("click", async (event) => {
   pageController.setCurrentPage(1);
   pageController.setSearchKeyword("");
+  $searchInput.value = "";
+  $searchInput.focus();
   await searchMovieFunc();
 });
 
