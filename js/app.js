@@ -252,7 +252,7 @@ const createPage = (totalPage, currentPage) => {
   let loopStartNum = loopNum - pageGroupLimit + 1;
   let pageBtn = "";
 
-  for (let i = loopStartNum; i <= loopNum; i++) {
+  for (let i = loopStartNum <= 0 ? 1 : loopStartNum; i <= loopNum; i++) {
     pageBtn += `<button ${
       pageController.getCurrentPage() === i ? 'class="active-current-page"' : ""
     } value="${i}"><span>${i}</span></button>`;
