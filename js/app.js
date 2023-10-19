@@ -50,6 +50,7 @@ const createTopMovieCard = (movieList) => {
     card.innerHTML = `
   <div class="main__top5-movies__card">
       <div>
+          <div><h1>${index + 1}</h1></div>
         <img
           src="${IMG_PATH}${poster_path}"
           alt="이미지가 없시요"
