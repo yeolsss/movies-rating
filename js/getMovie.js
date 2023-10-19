@@ -26,3 +26,12 @@ export const searchMovies = (searchKeyWord, page = 1) => {
     .then((response) => response.json())
     .catch((err) => console.error(err));
 };
+
+export const getMovie = (movieId) => {
+  return fetch(
+    `https://api.themoviedb.org/3/movie/${movieId}?language=ko-KR`,
+    options,
+  )
+    .then((response) => response.json())
+    .catch((err) => console.error(err));
+};

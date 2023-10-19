@@ -1,5 +1,5 @@
 // 영화 전체 받아오기
-import { getMovies, searchMovies } from "./getMovie.js";
+import { getMovie, getMovies, searchMovies } from "./getMovie.js";
 
 // img default url
 const IMG_PATH = "https://image.tmdb.org/t/p/w500";
@@ -16,6 +16,8 @@ const $searchInput = document.querySelector("#search_input");
 $searchInput.focus();
 // logo button (처음 페이지로 이동)
 const $homeBtn = document.querySelector("#home_btn");
+// detail modal
+const $detailModal = document.querySelector("#detail_modal");
 
 // pagination
 // 현재 검색 또는 로딩시 불러온 api에 page closure
@@ -35,7 +37,9 @@ const pageClosure = () => {
       return totalPage;
     },
     setCurrentPage(getCurrentPage) {
-      if (getCurrentPage > 500) getCurrentPage = 500;
+      if (getCurrentPage > 500) {
+        getCurrentPage = 500;
+      }
 
       currentPage = getCurrentPage <= 0 ? 1 : getCurrentPage;
     },
@@ -151,16 +155,7 @@ const createPopularMovieCard = (
   movieList.forEach((movie) => {
     const card = document.createElement("div");
     card.classList.add("main__popular-movies__card");
-    const {
-      id,
-      original_language,
-      original_title,
-      overview,
-      title,
-      vote_average,
-      vote_count,
-      poster_path,
-    } = movie;
+    const { id, title, vote_average, poster_path } = movie;
     card.innerHTML = `
           <img
           src="${IMG_PATH}${poster_path}"
@@ -329,10 +324,66 @@ $searchForm.addEventListener("submit", async (event) => {
   await searchMovieFunc();
 });
 
+// modal close
+window.closeDetail = () => {
+  $detailModal.classList.remove("active-modal");
+};
+
 // movie detail btn event 등록
 // onclick event
-window.openDetail = (event, id) => {
-  alert(`영화 id: ${id}`);
+window.openDetail = async (event, id) => {
+  $detailModal.classList.add("active-modal");
+  const detailModalInfo = document.querySelector(".detail-modal__info");
+  detailModalInfo.innerHTML = "";
+  const movieData = await getMovie(id);
+  console.log(movieData);
+  const {
+    original_language,
+    overview,
+    tagline,
+    title,
+    poster_path,
+    release_date,
+    genres,
+    runtime,
+  } = movieData;
+  const releaseDate = release_date.split("-");
+  const createDate = `${releaseDate[0]}.${releaseDate[1]}.${releaseDate[2]}`;
+  const createGenres = genres.map((item) => {
+    return item.name;
+  });
+  const makeRuntime = MakeDateForm(runtime);
+
+  detailModalInfo.innerHTML = `
+  <div class="detail-img">
+          <img
+            src="${IMG_PATH}${poster_path}"
+            alt=""
+          />
+        </div>
+        <div class="detail__info-wrapper">
+          <h1>${title}</h1>
+          <div class="detail__sub-info">
+            <span>${createDate} (${original_language})</span>
+            <div class="dot"></div>
+            <span>${createGenres.join(",")}</span>
+            <div class="dot"></div>
+            <span>${makeRuntime}</span>
+          </div>
+          <span class="detail__sub-title"
+            >${tagline}</span
+          >
+          <div class="detail__overwrite">
+            <h3>줄거리</h3>
+            <p>
+              ${overview}
+            </p>
+          </div>
+        </div>
+        <div class="detail__close-btn" onclick="closeDetail()">
+          <button class="del-btn"></button>
+        </div>
+  `;
 };
 
 // 검색, 페이지 번호 눌렀을 때 결과값 처리 함수
@@ -364,12 +415,20 @@ const searchMovieFunc = async () => {
 };
 
 // home
-$homeBtn.addEventListener("click", async (event) => {
+$homeBtn.addEventListener("click", async () => {
   pageController.setCurrentPage(1);
   pageController.setSearchKeyword("");
   $searchInput.value = "";
   $searchInput.focus();
   await searchMovieFunc();
 });
+
+const MakeDateForm = (min) => {
+  const days = Math.floor(min / 60 / 24);
+  const hour = Math.floor((min - days * 60 * 24) / 60);
+  const minute = min - days * 60 * 24 - hour * 60;
+
+  return hour + "시간" + minute + "분";
+};
 
 await searchMovieFunc();
