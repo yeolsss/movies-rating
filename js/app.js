@@ -1,5 +1,5 @@
 // 영화 전체 받아오기
-import { getMovie, getMovies, searchMovies } from "./getMovie.js";
+import { getMovie, getMovies } from "./getMovie.js";
 
 // img default url
 const IMG_PATH = "https://image.tmdb.org/t/p/w500";
@@ -380,20 +380,20 @@ window.openDetail = async (event, id) => {
 // 검색, 페이지 번호 눌렀을 때 결과값 처리 함수
 const searchMovieFunc = async () => {
   const keyword = pageController.getSearchKeyword();
+  const currentPage = pageController.getCurrentPage();
+  const popularApiUrl = `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${currentPage}`;
+  const searchApiUrl = `https://api.themoviedb.org/3/search/movie?query=${keyword}&include_adult=false&language=ko-KR&page=${currentPage}`;
   const { results, total_pages, total_results } =
     keyword !== ""
-      ? await searchMovies(
-          pageController.getSearchKeyword(),
-          pageController.getCurrentPage(),
-        )
-      : await getMovies(pageController.getCurrentPage());
+      ? await getMovies(searchApiUrl)
+      : await getMovies(popularApiUrl);
 
   if (keyword !== "") {
     pageController.setSearchTitle(`Search Movie (총 갯수 : ${total_results})`);
   } else {
     pageController.setSearchTitle("Popular Movies");
     pageController.setMovieObject(results);
-    pageController.getCurrentPage() === 1
+    currentPage === 1
       ? createTopMovieCard(pageController.getMovieObject())
       : "";
   }
@@ -401,7 +401,7 @@ const searchMovieFunc = async () => {
     results,
     pageController.getSearchTitle(),
     total_pages,
-    pageController.getCurrentPage(),
+    currentPage,
   );
 };
 

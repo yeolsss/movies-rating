@@ -9,20 +9,8 @@ const options = {
   },
 };
 
-export const getMovies = (page = 1) => {
-  return fetch(
-    `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${page}`,
-    options,
-  )
-    .then((response) => response.json())
-    .catch((err) => console.error(err));
-};
-
-export const searchMovies = (searchKeyWord, page = 1) => {
-  return fetch(
-    `https://api.themoviedb.org/3/search/movie?query=${searchKeyWord}&include_adult=false&language=ko-KR&page=${page}`,
-    options,
-  )
+export const getMovies = (url) => {
+  return fetch(url, options)
     .then((response) => response.json())
     .catch((err) => console.error(err));
 };
