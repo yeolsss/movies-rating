@@ -116,6 +116,7 @@ body {
   padding: 0 5rem 10rem;
   background-color: var(--main-wrapper-bg-color);
   position: relative;
+  min-height: 100vh;
 }
 
 /*header start*/

@@ -368,7 +368,7 @@ window.openDetail = async (event, id) => {
           <div class="detail__overwrite">
             <h3>줄거리</h3>
             <p>
-              ${overview}
+              ${overview === "" ? "줄거리 정보가 없습니다." : overview}
             </p>
           </div>
         </div>
