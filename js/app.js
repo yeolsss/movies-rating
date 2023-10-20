@@ -328,7 +328,6 @@ window.openDetail = async (event, id) => {
   const detailModalInfo = document.querySelector(".detail-modal__info");
   detailModalInfo.innerHTML = "";
   const movieData = await getMovie(id);
-  console.log(movieData);
   const {
     original_language,
     overview,
