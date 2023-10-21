@@ -58,19 +58,9 @@ const createTopMovieCard = (movieList) => {
 };
 
 // popular 출력 함수
-const createPopularMovieCard = (
-  movieList,
-  title,
-  totalPage,
-  currentPage = 1,
-) => {
-  // pagination 생성 함수 호출
-  // pagination class에 받아온 movie 리스트의 totalPage 입력
-  pageController.totalPage = parseInt(totalPage);
-  // pagination class에 현재 page 정보 입력
-  pageController.currentPage = currentPage;
+const createPopularMovieCard = (movieList) => {
   createPage();
-
+  const title = pageController.printTitle;
   $popularMovies.innerHTML = "";
   $popularMovies.innerHTML = `
   <div class="main__popular-movies__title">
@@ -95,13 +85,6 @@ const createPopularMovieCard = (
           </div>
           <div class="main__popular-movies__info" onclick="openDetail(this, ${id})">
             <h1>${title}</h1>
-            <!--<div class="star-wrapper">
-              <div class="star-area">
-                <span class="starpoint" style="width: ${
-                  vote_average.toFixed(1) * 10
-                }%"></span>
-              </div>
-            </div>-->
           </div>
   `;
     $popularMovies.append(card);
@@ -115,6 +98,7 @@ const createPage = () => {
   // footer 초기화
   $footer.innerHTML = "";
   // 클로저에 저장된 데이터 호출
+  pageController.currentPageGroup = "";
   const currentPageGroup = pageController.currentPageGroup;
   // 현재 pagination group의 limit 호출
   const pageGroupLimit = pageController.pageGroupLimit;
@@ -168,7 +152,6 @@ const createPage = () => {
     pageGroupLimit * currentPageGroup > totalPage
       ? totalPage
       : pageGroupLimit * currentPageGroup;
-
   // 현재 page 번호와 생성되는 버튼 번호가 맞으면 active class 붙이기
   let loopStartNum = loopNum - pageGroupLimit + 1;
   let pageBtn = "";
@@ -333,12 +316,9 @@ const searchMovieFunc = async () => {
     pageController.movieObject = results;
     currentPage === 1 ? createTopMovieCard(pageController.movieObject) : "";
   }
-  createPopularMovieCard(
-    results,
-    pageController.printTitle,
-    total_pages,
-    currentPage,
-  );
+  pageController.totalPage = total_pages;
+  pageController.currentPage = currentPage;
+  createPopularMovieCard(results);
 };
 
 // home
