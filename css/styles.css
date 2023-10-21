@@ -450,7 +450,6 @@ body {
 }
 .detail-modal__info .detail-img img {
   max-width: 37rem;
-  max-height: 55rem;
   width: 100%;
   height: 100%;
   border-radius: var(--border-radius);
