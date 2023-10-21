@@ -3,7 +3,7 @@ import { Pagination } from "./pageClass.js";
 // 영화 전체 받아오기
 import { getMovie, getMovies } from "./getMovie.js";
 // util
-import { makeDateForm } from "./util.js";
+import { makeDateForm, makeRatingCircle } from "./util.js";
 
 // img default url
 const IMG_PATH = "https://image.tmdb.org/t/p/w500";
@@ -34,6 +34,7 @@ const createTopMovieCard = (movieList) => {
     const card = document.createElement("div");
     card.classList.add("main__top5-movies__card");
     const { id, overview, title, vote_average, poster_path } = movie;
+    const ratingCircle = makeRatingCircle(vote_average, "top");
     card.innerHTML = `
   <div class="main__top5-movies__card">
       <div>
@@ -48,13 +49,7 @@ const createTopMovieCard = (movieList) => {
         <p>
           ${overview}
         </p>
-        <div class="star-wrapper">
-            <div class="star-area">
-              <span class="starpoint" style="width: ${
-                vote_average.toFixed(1) * 10
-              }%"></span>
-             </div>
-            </div>
+        ${ratingCircle}
       </div>  
     </div>
   `;
@@ -87,21 +82,26 @@ const createPopularMovieCard = (
     const card = document.createElement("div");
     card.classList.add("main__popular-movies__card");
     const { id, title, vote_average, poster_path } = movie;
+    // 평점 원 생성 함수 호출
+    const ratingCircle = makeRatingCircle(vote_average, "popular");
     card.innerHTML = `
-          <img
-          src="${IMG_PATH}${poster_path}"
-          alt="이미지가 없어요.. ㅠㅠ"
-          onclick="openDetail(this, ${id})"
-          />
+          <div class="main__popular-movies__img-wrapper">
+            <img
+            src="${IMG_PATH}${poster_path}"
+            alt="이미지가 없어요.. ㅠㅠ"
+            onclick="openDetail(this, ${id})"
+            />
+            ${ratingCircle}
+          </div>
           <div class="main__popular-movies__info" onclick="openDetail(this, ${id})">
             <h1>${title}</h1>
-            <div class="star-wrapper">
+            <!--<div class="star-wrapper">
               <div class="star-area">
                 <span class="starpoint" style="width: ${
                   vote_average.toFixed(1) * 10
                 }%"></span>
               </div>
-            </div>
+            </div>-->
           </div>
   `;
     $popularMovies.append(card);
@@ -271,20 +271,23 @@ window.openDetail = async (event, id) => {
     release_date,
     genres,
     runtime,
+    vote_average,
   } = movieData;
   const releaseDate = release_date.split("-");
   const createDate = `${releaseDate[0]}.${releaseDate[1]}.${releaseDate[2]}`;
+  const ratingCircle = makeRatingCircle(vote_average, "modal");
   const createGenres = genres.map((item) => {
     return item.name;
   });
   const makeRuntime = makeDateForm(runtime);
 
   detailModalInfo.innerHTML = `
-  <div class="detail-img">
+      <div class="detail-img">
           <img
             src="${IMG_PATH}${poster_path}"
             alt=""
           />
+          ${ratingCircle}
         </div>
         <div class="detail__info-wrapper">
           <h1>${title}</h1>

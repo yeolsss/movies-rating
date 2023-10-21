@@ -65,6 +65,7 @@ svg {
   --main-font-color: #f5f6fa;
   --border-radius: 1rem;
   --btn-active-color: #dcdde1;
+  --progress-color: #4cd137;
 
   /* fonts group */
   --main-title-font: "Cafe24Ssurround";
@@ -445,6 +446,7 @@ body {
 .detail-modal__info .detail-img {
   width: 70rem;
   flex-grow: 1;
+  position: relative;
 }
 .detail-modal__info .detail-img img {
   max-width: 37rem;
@@ -547,4 +549,68 @@ body {
 .active-modal {
   opacity: 100;
   pointer-events: auto;
+}
+
+.main__popular-movies__img-wrapper {
+  position: relative;
+}
+
+.circle-wrapper {
+  font-size: 1rem;
+  width: 3rem;
+  height: 3rem;
+}
+.circle-wrapper.popular {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 0.2rem;
+}
+.circle-wrapper.other {
+  margin-left: 85%;
+}
+.circle-wrapper.modal {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 6rem;
+  font-size: 1.6rem;
+  width: 8rem;
+  height: 8rem;
+}
+
+.modal-circle {
+  font-size: 1rem;
+  width: 10rem;
+  height: 10rem;
+}
+.circle {
+  width: inherit;
+  height: inherit;
+  display: flex;
+  border-radius: 50px;
+  border: 1px solid #353b48;
+  position: relative;
+  /*background: conic-gradient(
+    var(--progress-color) 300deg,
+    white 50deg
+  ); */
+}
+.inner-circle {
+  width: 90%;
+  height: 90%;
+  border-radius: inherit;
+  background-color: var(--main-bg-color);
+  margin: auto;
+  display: flex;
+  color: white;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+.inner-circle span {
+  display: flex;
+  align-items: center;
 }
