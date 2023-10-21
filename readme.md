@@ -93,4 +93,4 @@
 ---
 
 ### 배포
-[배포링크](https://movies-rating-c1n2fs1vu-yeolsss-projects.vercel.app/)
+[배포링크](https://movies-rating-nu.vercel.app/)
