@@ -91,6 +91,37 @@
 - DOM 제어하기 : 하기 api 목록 중 2개 이상 사용하기
 
 ---
+## Project Result
 
 ### 배포
 [배포링크](https://movies-rating-nu.vercel.app/)
+
+---
+
+### 시연 
+![시연.gif](%EC%8B%9C%EC%97%B0.gif)
+
+---
+
+### 사용 기술
+- HTML
+- CSS
+- Vanilla Javascript
+
+---
+
+### 주요 기능
+- 새로고침 없는 원페이지 페이징 처리
+- 검색기능
+- 영화 디테일 정보 modal
+- div를 사용한 원형 Progress 평점 구현
+
+---
+
+### 주요 기술
+- TMDB API를 활용(Popular API, Search API, Detail API)
+- TMDB API를 이용한 Pagination 구현
+- Javascript Module을 활용하여 코드 분할 및 재사용성을 높임
+
+---
+

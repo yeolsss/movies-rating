@@ -36,23 +36,22 @@ const createTopMovieCard = (movieList) => {
     const { id, overview, title, vote_average, poster_path } = movie;
     const ratingCircle = makeRatingCircle(vote_average, "top");
     card.innerHTML = `
-  <div class="main__top5-movies__card">
-      <div>
-          <div><h1>${index + 1}</h1></div>
-        <img
-          src="${IMG_PATH}${poster_path}"
-          alt="이미지가 없어요.. ㅠㅠ"
-        />
-      </div>
-      <div class="main__top5-movies__info" onclick="openDetail(this, ${id})">
-        <h1>${title}</h1>
-        <p>
-          ${overview}
-        </p>
-        ${ratingCircle}
-      </div>  
-    </div>
-  `;
+       <div class="main__top5-movies__card">
+          <div>
+              <div><h1>${index + 1}</h1></div>
+            <img
+              src="${IMG_PATH}${poster_path}"
+              alt="이미지가 없어요.. ㅠㅠ"
+            />
+          </div>
+          <div class="main__top5-movies__info" onclick="openDetail(this, ${id})">
+            <h1>${title}</h1>
+            <p>
+              ${overview}
+            </p>
+            ${ratingCircle}
+          </div>  
+        </div>`;
     $topMovies.append(card);
   });
 };
