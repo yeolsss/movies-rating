@@ -235,7 +235,13 @@ $searchForm.addEventListener("submit", async (event) => {
 
 // modal close
 window.closeDetail = () => {
+  pointerController();
   $detailModal.classList.remove("active-modal");
+};
+
+const pointerController = () => {
+  const container = document.querySelector("#body");
+  container.classList.toggle("remove-pointer");
 };
 
 // movie detail btn event 등록
@@ -243,6 +249,7 @@ window.closeDetail = () => {
 window.openDetail = async (event, id) => {
   $detailModal.classList.add("active-modal");
   const detailModalInfo = document.querySelector(".detail-modal__info");
+  pointerController();
   detailModalInfo.innerHTML = "";
   const movieData = await getMovie(id);
   const {

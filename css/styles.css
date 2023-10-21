@@ -551,6 +551,10 @@ body {
   pointer-events: auto;
 }
 
+.remove-pointer {
+  overflow: hidden;
+}
+
 .main__popular-movies__img-wrapper {
   position: relative;
 }
