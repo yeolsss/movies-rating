@@ -2,6 +2,8 @@
 import { Pagination } from "./pageClass.js";
 // 영화 전체 받아오기
 import { getMovie, getMovies } from "./getMovie.js";
+// util
+import { makeDateForm } from "./util.js";
 
 // img default url
 const IMG_PATH = "https://image.tmdb.org/t/p/w500";
@@ -68,8 +70,11 @@ const createPopularMovieCard = (
   currentPage = 1,
 ) => {
   // pagination 생성 함수 호출
-  // return html문자열 반환
-  createPage(totalPage, currentPage);
+  // pagination class에 받아온 movie 리스트의 totalPage 입력
+  pageController.totalPage = parseInt(totalPage);
+  // pagination class에 현재 page 정보 입력
+  pageController.currentPage = currentPage;
+  createPage();
 
   $popularMovies.innerHTML = "";
   $popularMovies.innerHTML = `
@@ -104,21 +109,17 @@ const createPopularMovieCard = (
 };
 
 // pagination 생성 함수
-const createPage = (totalPage, currentPage) => {
-  // pagination 관련 클로저에 받아온 movie 리스트의 total_page 입력
-  pageController.totalPage = parseInt(totalPage);
-  // pagination 관련 클로저에 현재 page 정보 입력
-  pageController.currentPage = parseInt(currentPage);
-
+const createPage = () => {
   // 생성한 pagination 넣을 부모 tag
   const $footer = document.querySelector(".footer-wrapper");
   // footer 초기화
   $footer.innerHTML = "";
   // 클로저에 저장된 데이터 호출
-  pageController.currentPageGroup;
   const currentPageGroup = pageController.currentPageGroup;
   // 현재 pagination group의 limit 호출
   const pageGroupLimit = pageController.pageGroupLimit;
+  const totalPage = pageController.totalPage;
+  const currentPage = pageController.currentPage;
 
   // 상위 nav tag 생성
   const paginationNav = document.createElement("nav");
@@ -162,9 +163,10 @@ const createPage = (totalPage, currentPage) => {
   pageBtnGroup.classList.add("page__btn-group");
   // pagination 버튼 그룹 limit만큼 반복문을 돌며 버튼 생성
   // 반복횟수 정하기
+
   let loopNum =
-    pageGroupLimit * currentPageGroup > pageController.totalPage
-      ? pageController.totalPage
+    pageGroupLimit * currentPageGroup > totalPage
+      ? totalPage
       : pageGroupLimit * currentPageGroup;
 
   // 현재 page 번호와 생성되는 버튼 번호가 맞으면 active class 붙이기
@@ -187,9 +189,7 @@ const createPage = (totalPage, currentPage) => {
   nextBtnGroup.innerHTML = `
   <div class="next__btn-group">
     <button value="${
-      pageController.currentPage + 1 > pageController.totalPage
-        ? pageController.currentPage
-        : pageController.currentPage + 1
+      currentPage + 1 > totalPage ? currentPage : currentPage + 1
     }">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -277,7 +277,7 @@ window.openDetail = async (event, id) => {
   const createGenres = genres.map((item) => {
     return item.name;
   });
-  const makeRuntime = MakeDateForm(runtime);
+  const makeRuntime = makeDateForm(runtime);
 
   detailModalInfo.innerHTML = `
   <div class="detail-img">
@@ -345,13 +345,5 @@ $homeBtn.addEventListener("click", async () => {
   $searchInput.focus();
   await searchMovieFunc();
 });
-
-const MakeDateForm = (min) => {
-  const days = Math.floor(min / 60 / 24);
-  const hour = Math.floor((min - days * 60 * 24) / 60);
-  const minute = min - days * 60 * 24 - hour * 60;
-
-  return hour + "시간" + minute + "분";
-};
 
 await searchMovieFunc();
