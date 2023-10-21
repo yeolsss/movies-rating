@@ -274,7 +274,6 @@ window.openDetail = async (event, id) => {
     vote_average,
   } = movieData;
 
-  console.log(vote_average);
   const releaseDate = release_date.split("-");
   const createDate = `${releaseDate[0]}.${releaseDate[1]}.${releaseDate[2]}`;
   const ratingCircle = makeRatingCircle(vote_average, "modal");
