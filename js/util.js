@@ -6,7 +6,7 @@ export const makeDateForm = (min) => {
 };
 
 export const makeRatingCircle = (vote_average, type) => {
-  const rating = Math.ceil(vote_average) * 10;
+  const rating = Math.round(vote_average * 10);
   const circleColorDeg = Math.ceil(vote_average * 36);
   const displayType =
     type === "popular" ? "popular" : type === "top" ? "other" : "modal";
