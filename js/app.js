@@ -1,3 +1,5 @@
+// pagination class
+import { Pagination } from "./pageClass.js";
 // 영화 전체 받아오기
 import { getMovie, getMovies } from "./getMovie.js";
 
@@ -19,76 +21,8 @@ const $homeBtn = document.querySelector("#home_btn");
 // detail modal
 const $detailModal = document.querySelector("#detail_modal");
 
-// pagination
-// 현재 검색 또는 로딩시 불러온 api에 page closure
-const pageClosure = () => {
-  let totalPage = 1;
-  let currentPageGroup = 1;
-  let currentPage = 1;
-  let searchKeyword = "";
-  let searchTitle = "";
-  const pageGroupLimit = 5;
-  let movieObject = null;
-  return {
-    setTotalPage(getTotalPage) {
-      totalPage = getTotalPage <= 0 ? 1 : getTotalPage;
-    },
-    getTotalPage() {
-      return totalPage;
-    },
-    setCurrentPage(getCurrentPage) {
-      if (getCurrentPage > 500) {
-        getCurrentPage = 500;
-      }
-
-      currentPage = getCurrentPage <= 0 ? 1 : getCurrentPage;
-    },
-    getCurrentPage() {
-      return currentPage;
-    },
-    setCurrentPageGroup() {
-      // 소수점은 올림처리하여 그룹 하나를 더 만든다.
-      currentPageGroup = Math.ceil(currentPage / pageGroupLimit);
-    },
-    getCurrentPageGroup() {
-      return currentPageGroup;
-    },
-    getGroupLimit() {
-      return pageGroupLimit;
-    },
-    setSearchKeyword(keyword) {
-      searchKeyword = keyword.replaceAll(" ", "") === "" ? "" : keyword;
-    },
-    getSearchKeyword() {
-      return searchKeyword;
-    },
-    setSearchTitle(title) {
-      searchTitle = title;
-    },
-    getSearchTitle() {
-      return searchTitle;
-    },
-    setMovieObject(results) {
-      // 사용하지 않아도되지만 reduce 공부를 위해 사용..
-      movieObject = results.reduce(
-        (acc, cur, index) => {
-          if (index < 5) {
-            acc.topFive.push(cur);
-          }
-          acc.popular.push(cur);
-          return acc;
-        },
-        { topFive: [], popular: [] },
-      );
-    },
-    getMovieObject() {
-      return movieObject;
-    },
-  };
-};
-
-// page 관련 클로저 생성
-const pageController = pageClosure();
+// page 객체 생성
+const pageController = new Pagination();
 
 // top5 출력 함수
 const createTopMovieCard = (movieList) => {
@@ -172,19 +106,19 @@ const createPopularMovieCard = (
 // pagination 생성 함수
 const createPage = (totalPage, currentPage) => {
   // pagination 관련 클로저에 받아온 movie 리스트의 total_page 입력
-  pageController.setTotalPage(parseInt(totalPage));
+  pageController.totalPage = parseInt(totalPage);
   // pagination 관련 클로저에 현재 page 정보 입력
-  pageController.setCurrentPage(parseInt(currentPage));
+  pageController.currentPage = parseInt(currentPage);
 
   // 생성한 pagination 넣을 부모 tag
   const $footer = document.querySelector(".footer-wrapper");
   // footer 초기화
   $footer.innerHTML = "";
   // 클로저에 저장된 데이터 호출
-  pageController.setCurrentPageGroup();
-  const currentPageGroup = pageController.getCurrentPageGroup();
+  pageController.currentPageGroup;
+  const currentPageGroup = pageController.currentPageGroup;
   // 현재 pagination group의 limit 호출
-  const pageGroupLimit = pageController.getGroupLimit();
+  const pageGroupLimit = pageController.pageGroupLimit;
 
   // 상위 nav tag 생성
   const paginationNav = document.createElement("nav");
@@ -229,8 +163,8 @@ const createPage = (totalPage, currentPage) => {
   // pagination 버튼 그룹 limit만큼 반복문을 돌며 버튼 생성
   // 반복횟수 정하기
   let loopNum =
-    pageGroupLimit * currentPageGroup > pageController.getTotalPage()
-      ? pageController.getTotalPage()
+    pageGroupLimit * currentPageGroup > pageController.totalPage
+      ? pageController.totalPage
       : pageGroupLimit * currentPageGroup;
 
   // 현재 page 번호와 생성되는 버튼 번호가 맞으면 active class 붙이기
@@ -239,7 +173,7 @@ const createPage = (totalPage, currentPage) => {
 
   for (let i = loopStartNum <= 0 ? 1 : loopStartNum; i <= loopNum; i++) {
     pageBtn += `<button ${
-      pageController.getCurrentPage() === i ? 'class="active-current-page"' : ""
+      pageController.currentPage === i ? 'class="active-current-page"' : ""
     } value="${i}"><span>${i}</span></button>`;
   }
   // 생성된 button 그룹에 innderHTML
@@ -253,9 +187,9 @@ const createPage = (totalPage, currentPage) => {
   nextBtnGroup.innerHTML = `
   <div class="next__btn-group">
     <button value="${
-      pageController.getCurrentPage() + 1 > pageController.getTotalPage()
-        ? pageController.getCurrentPage()
-        : pageController.getCurrentPage() + 1
+      pageController.currentPage + 1 > pageController.totalPage
+        ? pageController.currentPage
+        : pageController.currentPage + 1
     }">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -297,7 +231,7 @@ const addFooterBtnFunc = () => {
   const $footerBtn = document.querySelectorAll(".footer-wrapper button");
   $footerBtn.forEach((btn) => {
     btn.addEventListener("click", async (event) => {
-      pageController.setCurrentPage(parseInt(event.target.value));
+      pageController.currentPage = parseInt(event.target.value);
       await searchMovieFunc();
     });
   });
@@ -311,8 +245,8 @@ $searchForm.addEventListener("submit", async (event) => {
     alert("검색어를 입력해 주세요.");
     return;
   }
-  pageController.setCurrentPage(1);
-  pageController.setSearchKeyword(searchKeyword);
+  pageController.currentPage = 1;
+  pageController.searchKeyword = searchKeyword;
   await searchMovieFunc();
 });
 
@@ -379,8 +313,8 @@ window.openDetail = async (event, id) => {
 
 // 검색, 페이지 번호 눌렀을 때 결과값 처리 함수
 const searchMovieFunc = async () => {
-  const keyword = pageController.getSearchKeyword();
-  const currentPage = pageController.getCurrentPage();
+  const keyword = pageController.searchKeyword;
+  const currentPage = pageController.currentPage;
   const popularApiUrl = `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${currentPage}`;
   const searchApiUrl = `https://api.themoviedb.org/3/search/movie?query=${keyword}&include_adult=false&language=ko-KR&page=${currentPage}`;
   const { results, total_pages, total_results } =
@@ -389,17 +323,15 @@ const searchMovieFunc = async () => {
       : await getMovies(popularApiUrl);
 
   if (keyword !== "") {
-    pageController.setSearchTitle(`Search Movie (총 갯수 : ${total_results})`);
+    pageController.printTitle = `Search Movie (총 갯수 : ${total_results})`;
   } else {
-    pageController.setSearchTitle("Popular Movies");
-    pageController.setMovieObject(results);
-    currentPage === 1
-      ? createTopMovieCard(pageController.getMovieObject())
-      : "";
+    pageController.printTitle = "Popular Movies";
+    pageController.movieObject = results;
+    currentPage === 1 ? createTopMovieCard(pageController.movieObject) : "";
   }
   createPopularMovieCard(
     results,
-    pageController.getSearchTitle(),
+    pageController.printTitle,
     total_pages,
     currentPage,
   );
@@ -407,8 +339,8 @@ const searchMovieFunc = async () => {
 
 // home
 $homeBtn.addEventListener("click", async () => {
-  pageController.setCurrentPage(1);
-  pageController.setSearchKeyword("");
+  pageController.currentPage = 1;
+  pageController.searchKeyword = "";
   $searchInput.value = "";
   $searchInput.focus();
   await searchMovieFunc();
