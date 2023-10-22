@@ -1,4 +1,4 @@
-// pagination class
+// pagination util
 import { Pagination, createPagination } from "./paginationUtil.js";
 // 영화 전체 받아오기
 import { getMovie, getMovies } from "./getMovie.js";
@@ -26,7 +26,10 @@ const $detailModal = document.querySelector("#detail_modal");
 // page 객체 생성
 const pageController = new Pagination();
 
-// top5 출력 함수
+/**
+ * top5 출력 함수
+ * @param movieList - 출력할 데이터(배열인 매개변수)
+ */
 const createTopMovieCard = (movieList) => {
   const { topFive } = movieList;
   $topMovies.innerHTML = "";
@@ -56,7 +59,10 @@ const createTopMovieCard = (movieList) => {
   });
 };
 
-// popular 출력 함수
+/**
+ * popular, 검색 결과 출력 함수
+ * @param movieList - 출력할 데이터(배열인 매개변수)
+ */
 const createPopularMovieCard = (movieList) => {
   createPagination(pageController);
   addFooterBtnFunc();
@@ -102,7 +108,7 @@ const addFooterBtnFunc = () => {
   });
 };
 
-// search
+// search form event
 $searchForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const searchKeyword = event.target[0].value;
@@ -115,19 +121,33 @@ $searchForm.addEventListener("submit", async (event) => {
   await searchMovieFunc();
 });
 
-// modal close
+//
+/**
+ * modal close 함수
+ * js파일의 type이 module로 선언 되었을 경우 window 객체 메소드를 사용하여 접근한다.
+ */
 window.closeDetail = () => {
   pointerController();
   $detailModal.classList.remove("active-modal");
 };
 
+/**
+ * modal 이 열리고 닫힐때 css요소인 pointer-events를 none 할 수있는
+ * class를 추가 또는 삭제하는 함수
+ * modal이 보일때 modal의 형제 노드들의 이벤트를 막기위함.
+ */
 const pointerController = () => {
   const container = document.querySelector("#body");
   container.classList.toggle("remove-pointer");
 };
 
-// movie detail btn event 등록
-// onclick event
+/**
+ * movie detail btn event 등록
+ * onclick event
+ * @param event - 메소드 호출(click)한 객체(this)
+ * @param id - 데이터를 불러올 영화id
+ * @returns {Promise<void>}
+ */
 window.openDetail = async (event, id) => {
   $detailModal.classList.add("active-modal");
   const detailModalInfo = document.querySelector(".detail-modal__info");
@@ -219,4 +239,5 @@ $homeBtn.addEventListener("click", async () => {
   await searchMovieFunc();
 });
 
+// 첫 로딩시 movie정보를 출력
 await searchMovieFunc();

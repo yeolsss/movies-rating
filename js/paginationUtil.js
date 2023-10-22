@@ -88,7 +88,10 @@ export class Pagination {
   }
 }
 
-// pagination 생성 함수
+/**
+ * pagination 생성 함수
+ * @param pageObject - pagination object
+ */
 export const createPagination = (pageObject) => {
   // 생성한 pagination 넣을 부모 tag
   const $footer = document.querySelector(".footer-wrapper");
