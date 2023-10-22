@@ -106,12 +106,12 @@ export const createPagination = (pageObject) => {
   const currentPage = pageObject.currentPage;
 
   // 상위 nav tag 생성
-  const paginationNav = document.createElement("nav");
-  paginationNav.classList.add("footer-nav");
+  const $paginationNav = document.createElement("nav");
+  $paginationNav.classList.add("footer-nav");
   // 이전 화살표 그룹 div tag 생성
-  const prevBtnGroup = document.createElement("div");
-  prevBtnGroup.classList.add("prev__btn-group");
-  prevBtnGroup.innerHTML = `
+  const $prevBtnGroup = document.createElement("div");
+  $prevBtnGroup.classList.add("prev__btn-group");
+  $prevBtnGroup.innerHTML = `
     <button value="${1}">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -140,11 +140,11 @@ export const createPagination = (pageObject) => {
     </button>
   `;
   // nav에 이전 화살표 버튼 그룹 append
-  paginationNav.append(prevBtnGroup);
+  $paginationNav.append($prevBtnGroup);
 
   // page 숫자 버튼 그룹 생성
-  const pageBtnGroup = document.createElement("div");
-  pageBtnGroup.classList.add("page__btn-group");
+  const $pageBtnGroup = document.createElement("div");
+  $pageBtnGroup.classList.add("page__btn-group");
   // pagination 버튼 그룹 limit만큼 반복문을 돌며 버튼 생성
   // 반복횟수 정하기
 
@@ -162,14 +162,14 @@ export const createPagination = (pageObject) => {
     } value="${i}"><span>${i}</span></button>`;
   }
   // 생성된 button 그룹에 innderHTML
-  pageBtnGroup.innerHTML = pageBtn;
+  $pageBtnGroup.innerHTML = pageBtn;
   // 완성된 pageBtnGroup nav에 append
-  paginationNav.append(pageBtnGroup);
+  $paginationNav.append($pageBtnGroup);
 
   // 다음 화살표 그룹 div tag 생성
-  const nextBtnGroup = document.createElement("div");
-  nextBtnGroup.classList.add("next__btn-group");
-  nextBtnGroup.innerHTML = `
+  const $nextBtnGroup = document.createElement("div");
+  $nextBtnGroup.classList.add("next__btn-group");
+  $nextBtnGroup.innerHTML = `
   <div class="next__btn-group">
     <button value="${
       currentPage + 1 > totalPage ? currentPage : currentPage + 1
@@ -203,7 +203,7 @@ export const createPagination = (pageObject) => {
   `;
 
   // nav에 이전 화살표 버튼 그룹 append
-  paginationNav.append(nextBtnGroup);
+  $paginationNav.append($nextBtnGroup);
   // 완성된 nav footer에 append
-  $footer.append(paginationNav);
+  $footer.append($paginationNav);
 };

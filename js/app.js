@@ -34,11 +34,11 @@ const createTopMovieCard = (movieList) => {
   const { topFive } = movieList;
   $topMovies.innerHTML = "";
   topFive.forEach((movie, index) => {
-    const card = document.createElement("div");
-    card.classList.add("main__top5-movies__card");
+    const $card = document.createElement("div");
+    $card.classList.add("main__top5-movies__card");
     const { id, overview, title, vote_average, poster_path } = movie;
     const ratingCircle = makeRatingCircle(vote_average, "top");
-    card.innerHTML = `
+    $card.innerHTML = `
        <div class="main__top5-movies__card">
           <div>
               <div><h1>${index + 1}</h1></div>
@@ -55,7 +55,7 @@ const createTopMovieCard = (movieList) => {
             ${ratingCircle}
           </div>  
         </div>`;
-    $topMovies.append(card);
+    $topMovies.append($card);
   });
 };
 
@@ -75,12 +75,12 @@ const createPopularMovieCard = (movieList) => {
   `;
 
   movieList.forEach((movie) => {
-    const card = document.createElement("div");
-    card.classList.add("main__popular-movies__card");
+    const $card = document.createElement("div");
+    $card.classList.add("main__popular-movies__card");
     const { id, title, vote_average, poster_path } = movie;
     // 평점 원 생성 함수 호출
     const ratingCircle = makeRatingCircle(vote_average, "popular");
-    card.innerHTML = `
+    $card.innerHTML = `
           <div class="main__popular-movies__img-wrapper">
             <img
             src="${IMG_PATH}${poster_path}"
@@ -93,7 +93,7 @@ const createPopularMovieCard = (movieList) => {
             <h1>${title}</h1>
           </div>
   `;
-    $popularMovies.append(card);
+    $popularMovies.append($card);
   });
 };
 
@@ -137,8 +137,8 @@ window.closeDetail = () => {
  * modal이 보일때 modal의 형제 노드들의 이벤트를 막기위함.
  */
 const pointerController = () => {
-  const container = document.querySelector("#body");
-  container.classList.toggle("remove-pointer");
+  const $container = document.querySelector("#body");
+  $container.classList.toggle("remove-pointer");
 };
 
 /**
@@ -150,9 +150,9 @@ const pointerController = () => {
  */
 window.openDetail = async (event, id) => {
   $detailModal.classList.add("active-modal");
-  const detailModalInfo = document.querySelector(".detail-modal__info");
+  const $detailModalInfo = document.querySelector(".detail-modal__info");
   pointerController();
-  detailModalInfo.innerHTML = "";
+  $detailModalInfo.innerHTML = "";
   const movieData = await getMovie(id);
   const {
     original_language,
@@ -174,7 +174,7 @@ window.openDetail = async (event, id) => {
   });
   const makeRuntime = makeDateForm(runtime);
 
-  detailModalInfo.innerHTML = `
+  $detailModalInfo.innerHTML = `
       <div class="detail-img">
           <img
             src="${IMG_PATH}${poster_path}"
