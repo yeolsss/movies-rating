@@ -121,7 +121,6 @@ $searchForm.addEventListener("submit", async (event) => {
   await searchMovieFunc();
 });
 
-//
 /**
  * modal close 함수
  * js파일의 type이 module로 선언 되었을 경우 window 객체 메소드를 사용하여 접근한다.

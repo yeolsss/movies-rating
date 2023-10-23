@@ -1,3 +1,9 @@
+const calLoopNum = (pageGroupLimit, currentPageGroup, totalPage) => {
+  return pageGroupLimit * currentPageGroup > totalPage
+    ? totalPage
+    : pageGroupLimit * currentPageGroup;
+};
+
 export class Pagination {
   constructor(
     totalPage = 1,
@@ -6,6 +12,8 @@ export class Pagination {
     searchKeyword = "",
     movieObject = null,
     pageGroupLimit = 5,
+    loopNum = 1,
+    loopStartNum = 1,
   ) {
     this._currentPageGroup = currentPageGroup;
     this._currentPage = currentPage;
@@ -14,6 +22,30 @@ export class Pagination {
     this._movieObject = movieObject;
     this._printTitle = "";
     this._totalPage = totalPage;
+    this._loopNum = loopNum;
+    this._loopStartNum = loopStartNum;
+  }
+
+  get loopStartNum() {
+    this._loopStartNum = this._loopStartNum - this.pageGroupLimit + 1;
+    return this._loopStartNum;
+  }
+
+  set loopStartNum(value) {
+    this._loopStartNum = value;
+  }
+
+  get loopNum() {
+    this._loopNum = calLoopNum(
+      this._pageGroupLimit,
+      this._currentPageGroup,
+      this._totalPage,
+    );
+    return this._loopNum;
+  }
+
+  set loopNum(value) {
+    this._loopNum = value;
   }
 
   get totalPage() {
@@ -109,9 +141,9 @@ export const createPagination = (pageObject) => {
   const $paginationNav = document.createElement("nav");
   $paginationNav.classList.add("footer-nav");
   // 이전 화살표 그룹 div tag 생성
-  const $prevBtnGroup = document.createElement("div");
-  $prevBtnGroup.classList.add("prev__btn-group");
-  $prevBtnGroup.innerHTML = `
+  const prevBtnGroup = document.createElement("div");
+  prevBtnGroup.classList.add("prev__btn-group");
+  prevBtnGroup.innerHTML = `
     <button value="${1}">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -140,22 +172,18 @@ export const createPagination = (pageObject) => {
     </button>
   `;
   // nav에 이전 화살표 버튼 그룹 append
-  $paginationNav.append($prevBtnGroup);
+  $paginationNav.append(prevBtnGroup);
 
   // page 숫자 버튼 그룹 생성
   const $pageBtnGroup = document.createElement("div");
   $pageBtnGroup.classList.add("page__btn-group");
   // pagination 버튼 그룹 limit만큼 반복문을 돌며 버튼 생성
   // 반복횟수 정하기
-
-  let loopNum =
-    pageGroupLimit * currentPageGroup > totalPage
-      ? totalPage
-      : pageGroupLimit * currentPageGroup;
-  // 현재 page 번호와 생성되는 버튼 번호가 맞으면 active class 붙이기
-  let loopStartNum = loopNum - pageGroupLimit + 1;
+  const loopNum = pageObject.loopNum;
+  const loopStartNum = pageObject.loopStartNum;
   let pageBtn = "";
 
+  // 현재 page 번호와 생성되는 버튼 번호가 맞으면 active class 붙이기
   for (let i = loopStartNum <= 0 ? 1 : loopStartNum; i <= loopNum; i++) {
     pageBtn += `<button ${
       pageObject.currentPage === i ? 'class="active-current-page"' : ""
