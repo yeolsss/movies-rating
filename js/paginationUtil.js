@@ -9,7 +9,7 @@ export class Pagination {
     totalPage = 1,
     currentPageGroup = 1,
     currentPage = 1,
-    searchKeyword = "",
+    searchKeyword = '',
     movieObject = null,
     pageGroupLimit = 5,
     loopNum = 1,
@@ -20,14 +20,15 @@ export class Pagination {
     this._searchKeyword = searchKeyword;
     this._pageGroupLimit = pageGroupLimit;
     this._movieObject = movieObject;
-    this._printTitle = "";
+    this._printTitle = '';
     this._totalPage = totalPage;
     this._loopNum = loopNum;
     this._loopStartNum = loopStartNum;
   }
 
   get loopStartNum() {
-    this._loopStartNum = this._loopStartNum - this.pageGroupLimit + 1;
+    this._loopStartNum = this._loopNum - this.pageGroupLimit + 1;
+    console.log(this._loopStartNum);
     return this._loopStartNum;
   }
 
@@ -83,7 +84,7 @@ export class Pagination {
   }
 
   set searchKeyword(value) {
-    this._searchKeyword = value.replaceAll(" ", "") === "" ? "" : value;
+    this._searchKeyword = value.replaceAll(' ', '') === '' ? '' : value;
   }
 
   get printTitle() {
@@ -126,23 +127,21 @@ export class Pagination {
  */
 export const createPagination = (pageObject) => {
   // 생성한 pagination 넣을 부모 tag
-  const $footer = document.querySelector(".footer-wrapper");
+  const $footer = document.querySelector('.footer-wrapper');
   // footer 초기화
-  $footer.innerHTML = "";
-  // 클로저에 저장된 데이터 호출
-  pageObject.currentPageGroup = "";
+  $footer.innerHTML = '';
+  pageObject.currentPageGroup = '';
   const currentPageGroup = pageObject.currentPageGroup;
   // 현재 pagination group의 limit 호출
-  const pageGroupLimit = pageObject.pageGroupLimit;
   const totalPage = pageObject.totalPage;
   const currentPage = pageObject.currentPage;
 
   // 상위 nav tag 생성
-  const $paginationNav = document.createElement("nav");
-  $paginationNav.classList.add("footer-nav");
+  const $paginationNav = document.createElement('nav');
+  $paginationNav.classList.add('footer-nav');
   // 이전 화살표 그룹 div tag 생성
-  const prevBtnGroup = document.createElement("div");
-  prevBtnGroup.classList.add("prev__btn-group");
+  const prevBtnGroup = document.createElement('div');
+  prevBtnGroup.classList.add('prev__btn-group');
   prevBtnGroup.innerHTML = `
     <button value="${1}">
       <svg
@@ -175,18 +174,18 @@ export const createPagination = (pageObject) => {
   $paginationNav.append(prevBtnGroup);
 
   // page 숫자 버튼 그룹 생성
-  const $pageBtnGroup = document.createElement("div");
-  $pageBtnGroup.classList.add("page__btn-group");
+  const $pageBtnGroup = document.createElement('div');
+  $pageBtnGroup.classList.add('page__btn-group');
   // pagination 버튼 그룹 limit만큼 반복문을 돌며 버튼 생성
   // 반복횟수 정하기
   const loopNum = pageObject.loopNum;
   const loopStartNum = pageObject.loopStartNum;
-  let pageBtn = "";
+  let pageBtn = '';
 
   // 현재 page 번호와 생성되는 버튼 번호가 맞으면 active class 붙이기
   for (let i = loopStartNum <= 0 ? 1 : loopStartNum; i <= loopNum; i++) {
     pageBtn += `<button ${
-      pageObject.currentPage === i ? 'class="active-current-page"' : ""
+      pageObject.currentPage === i ? 'class="active-current-page"' : ''
     } value="${i}"><span>${i}</span></button>`;
   }
   // 생성된 button 그룹에 innderHTML
@@ -195,8 +194,8 @@ export const createPagination = (pageObject) => {
   $paginationNav.append($pageBtnGroup);
 
   // 다음 화살표 그룹 div tag 생성
-  const $nextBtnGroup = document.createElement("div");
-  $nextBtnGroup.classList.add("next__btn-group");
+  const $nextBtnGroup = document.createElement('div');
+  $nextBtnGroup.classList.add('next__btn-group');
   $nextBtnGroup.innerHTML = `
   <div class="next__btn-group">
     <button value="${
