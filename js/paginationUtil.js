@@ -28,7 +28,6 @@ export class Pagination {
 
   get loopStartNum() {
     this._loopStartNum = this._loopNum - this.pageGroupLimit + 1;
-    console.log(this._loopStartNum);
     return this._loopStartNum;
   }
 
