@@ -125,6 +125,7 @@ export class Pagination {
  * @param pageObject - pagination object
  */
 export const createPagination = (pageObject) => {
+  // 좀 더 좋은 코드를 만들 수 있지 않을까..?
   // 생성한 pagination 넣을 부모 tag
   const $footer = document.querySelector('.footer-wrapper');
   // footer 초기화
