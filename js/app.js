@@ -1,27 +1,27 @@
 // pagination util
-import { Pagination, createPagination } from "./paginationUtil.js";
+import { Pagination, createPagination } from './paginationUtil.js';
 // 영화 전체 받아오기
-import { getMovie, getMovies } from "./getMovie.js";
+import { getMovie, getMovies } from './getMovie.js';
 // util
-import { makeDateForm, makeRatingCircle } from "./util.js";
+import { makeDateForm, makeRatingCircle } from './util.js';
 
 // img default url
-const IMG_PATH = "https://image.tmdb.org/t/p/w500";
+const IMG_PATH = 'https://image.tmdb.org/t/p/w500';
 
 // document 객체
 // top5 movie card div
-const $topMovies = document.querySelector("#top5_movies");
+const $topMovies = document.querySelector('#top5_movies');
 // popular movie card div
-const $popularMovies = document.querySelector("#popular_movies");
+const $popularMovies = document.querySelector('#popular_movies');
 // search form
-const $searchForm = document.querySelector("#search_form");
+const $searchForm = document.querySelector('#search_form');
 // search input
-const $searchInput = document.querySelector("#search_input");
+const $searchInput = document.querySelector('#search_input');
 $searchInput.focus();
 // logo button (처음 페이지로 이동)
-const $homeBtn = document.querySelector("#home_btn");
+const $homeBtn = document.querySelector('#home_btn');
 // detail modal
-const $detailModal = document.querySelector("#detail_modal");
+const $detailModal = document.querySelector('#detail_modal');
 
 // page 객체 생성
 const pageController = new Pagination();
@@ -32,12 +32,12 @@ const pageController = new Pagination();
  */
 const createTopMovieCard = (movieList) => {
   const { topFive } = movieList;
-  $topMovies.innerHTML = "";
+  $topMovies.innerHTML = '';
   topFive.forEach((movie, index) => {
-    const $card = document.createElement("div");
-    $card.classList.add("main__top5-movies__card");
+    const $card = document.createElement('div');
+    $card.classList.add('main__top5-movies__card');
     const { id, overview, title, vote_average, poster_path } = movie;
-    const ratingCircle = makeRatingCircle(vote_average, "top");
+    const ratingCircle = makeRatingCircle(vote_average, 'top');
     $card.innerHTML = `
        <div class="main__top5-movies__card">
           <div>
@@ -67,7 +67,7 @@ const createPopularMovieCard = (movieList) => {
   createPagination(pageController);
   addFooterBtnFunc();
   const title = pageController.printTitle;
-  $popularMovies.innerHTML = "";
+  $popularMovies.innerHTML = '';
   $popularMovies.innerHTML = `
   <div class="main__popular-movies__title">
     <h1>${title}</h1>
@@ -75,11 +75,11 @@ const createPopularMovieCard = (movieList) => {
   `;
 
   movieList.forEach((movie) => {
-    const $card = document.createElement("div");
-    $card.classList.add("main__popular-movies__card");
+    const $card = document.createElement('div');
+    $card.classList.add('main__popular-movies__card');
     const { id, title, vote_average, poster_path } = movie;
     // 평점 원 생성 함수 호출
-    const ratingCircle = makeRatingCircle(vote_average, "popular");
+    const ratingCircle = makeRatingCircle(vote_average, 'popular');
     $card.innerHTML = `
           <div class="main__popular-movies__img-wrapper">
             <img
@@ -99,9 +99,9 @@ const createPopularMovieCard = (movieList) => {
 
 // pagination btn event 등록
 const addFooterBtnFunc = () => {
-  const $footerBtn = document.querySelectorAll(".footer-wrapper button");
+  const $footerBtn = document.querySelectorAll('.footer-wrapper button');
   $footerBtn.forEach((btn) => {
-    btn.addEventListener("click", async (event) => {
+    btn.addEventListener('click', async (event) => {
       pageController.currentPage = parseInt(event.target.value);
       await searchMovieFunc();
     });
@@ -109,11 +109,11 @@ const addFooterBtnFunc = () => {
 };
 
 // search form event
-$searchForm.addEventListener("submit", async (event) => {
+$searchForm.addEventListener('submit', async (event) => {
   event.preventDefault();
   const searchKeyword = event.target[0].value;
-  if (searchKeyword.replaceAll(" ", "") === "") {
-    alert("검색어를 입력해 주세요.");
+  if (searchKeyword.replaceAll(' ', '') === '') {
+    alert('검색어를 입력해 주세요.');
     return;
   }
   pageController.currentPage = 1;
@@ -127,7 +127,7 @@ $searchForm.addEventListener("submit", async (event) => {
  */
 window.closeDetail = () => {
   pointerController();
-  $detailModal.classList.remove("active-modal");
+  $detailModal.classList.remove('active-modal');
 };
 
 /**
@@ -136,8 +136,8 @@ window.closeDetail = () => {
  * modal이 보일때 modal의 형제 노드들의 이벤트를 막기위함.
  */
 const pointerController = () => {
-  const $container = document.querySelector("#body");
-  $container.classList.toggle("remove-pointer");
+  const $container = document.querySelector('#body');
+  $container.classList.toggle('remove-pointer');
 };
 
 /**
@@ -148,10 +148,10 @@ const pointerController = () => {
  * @returns {Promise<void>}
  */
 window.openDetail = async (event, id) => {
-  $detailModal.classList.add("active-modal");
-  const $detailModalInfo = document.querySelector(".detail-modal__info");
+  $detailModal.classList.add('active-modal');
+  const $detailModalInfo = document.querySelector('.detail-modal__info');
   pointerController();
-  $detailModalInfo.innerHTML = "";
+  $detailModalInfo.innerHTML = '';
   const movieData = await getMovie(id);
   const {
     original_language,
@@ -165,9 +165,9 @@ window.openDetail = async (event, id) => {
     vote_average,
   } = movieData;
 
-  const releaseDate = release_date.split("-");
+  const releaseDate = release_date.split('-');
   const createDate = `${releaseDate[0]}.${releaseDate[1]}.${releaseDate[2]}`;
-  const ratingCircle = makeRatingCircle(vote_average, "modal");
+  const ratingCircle = makeRatingCircle(vote_average, 'modal');
   const createGenres = genres.map((item) => {
     return item.name;
   });
@@ -186,7 +186,7 @@ window.openDetail = async (event, id) => {
           <div class="detail__sub-info">
             <span>${createDate} (${original_language})</span>
             <div class="dot"></div>
-            <span>${createGenres.join(",")}</span>
+            <span>${createGenres.join(',')}</span>
             <div class="dot"></div>
             <span>${makeRuntime}</span>
           </div>
@@ -196,7 +196,7 @@ window.openDetail = async (event, id) => {
           <div class="detail__overwrite">
             <h3>줄거리</h3>
             <p>
-              ${overview === "" ? "줄거리 정보가 없습니다." : overview}
+              ${overview === '' ? '줄거리 정보가 없습니다.' : overview}
             </p>
           </div>
         </div>
@@ -213,16 +213,16 @@ const searchMovieFunc = async () => {
   const popularApiUrl = `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${currentPage}`;
   const searchApiUrl = `https://api.themoviedb.org/3/search/movie?query=${keyword}&include_adult=false&language=ko-KR&page=${currentPage}`;
   const { results, total_pages, total_results } =
-    keyword !== ""
+    keyword !== ''
       ? await getMovies(searchApiUrl)
       : await getMovies(popularApiUrl);
 
-  if (keyword !== "") {
+  if (keyword !== '') {
     pageController.printTitle = `Search Movie (총 갯수 : ${total_results})`;
   } else {
-    pageController.printTitle = "Popular Movies";
+    pageController.printTitle = 'Popular Movies';
     pageController.movieObject = results;
-    currentPage === 1 ? createTopMovieCard(pageController.movieObject) : "";
+    currentPage === 1 ? createTopMovieCard(pageController.movieObject) : '';
   }
   pageController.totalPage = total_pages;
   pageController.currentPage = currentPage;
@@ -230,10 +230,10 @@ const searchMovieFunc = async () => {
 };
 
 // home
-$homeBtn.addEventListener("click", async () => {
+$homeBtn.addEventListener('click', async () => {
   pageController.currentPage = 1;
-  pageController.searchKeyword = "";
-  $searchInput.value = "";
+  pageController.searchKeyword = '';
+  $searchInput.value = '';
   $searchInput.focus();
   await searchMovieFunc();
 });
